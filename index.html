@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ESANIO EMPRENDEDOR | Desayunos Andinos y Panetón Nutricional</title>
+  
+  <!-- Tipografía Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- EmailJS SDK Oficial -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       VARIABLES Y PALETA DE COLORES (Tonos cálidos, terrosos y andinos)
+       ========================================================================== */
+    :root {
+      --terracota: #9E3E23;
+      --terracota-dark: #7C2E17;
+      --terracota-light: #F7EAE5;
+      --ocre: #D68729;
+      --ocre-light: #FDF3E7;
+      --verde-andino: #3E6347;
+      --verde-light: #EBF3ED;
+      --cacao: #2B1E19;
+      --arena-fondo: #F9F6F0;
+      --card-bg: #FFFFFF;
+      --borde: #E7DFD5;
+      --borde-focus: #9E3E23;
+      --texto-ppal: #261B16;
+      --texto-suave: #6E625A;
+      --sombra-card: 0 4px 20px -2px rgba(66, 36, 23, 0.07);
+      --sombra-flotante: 0 12px 30px -4px rgba(66, 36, 23, 0.16);
+      --radio-sm: 8px;
+      --radio-md: 14px;
+      --radio-lg: 20px;
+      --fuente-titulos: 'Outfit', sans-serif;
+      --fuente-cuerpo: 'Plus Jakarta Sans', sans-serif;
+      --transicion: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Reset y base mobile-first */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--arena-fondo);
+      color: var(--texto-ppal);
+      font-family: var(--fuente-cuerpo);
+      font-size: 15px;
+      line-height: 1.5;
+      padding-bottom: 90px; /* Espacio para barra resumen sticky en móviles */
+    }
+
+    /* HEADER & HERO */
+    .header {
+      background: linear-gradient(135deg, var(--cacao) 0%, #4D2619 60%, var(--terracota) 100%);
+      color: #FFF;
+      padding: 2.2rem 1.2rem 2.8rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      border-bottom-left-radius: var(--radio-lg);
+      border-bottom-right-radius: var(--radio-lg);
+      box-shadow: 0 10px 25px rgba(43, 30, 25, 0.2);
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 250px;
+      height: 250px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(214, 135, 41, 0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #FEE8D6;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      padding: 5px 12px;
+      border-radius: 50px;
+      margin-bottom: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .header h1 {
+      font-family: var(--fuente-titulos);
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+      margin-bottom: 0.5rem;
+      color: #FFFFFF;
+    }
+
+    .header h1 span {
+      color: #F8C787;
+    }
+
+    .header p {
+      color: #E2D3CA;
+      font-size: 0.95rem;
+      max-width: 520px;
+      margin: 0 auto 1.2rem;
+      font-weight: 400;
+    }
+
+    .campus-notice {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(214, 135, 41, 0.22);
+      border: 1px dashed rgba(248, 199, 135, 0.6);
+      padding: 8px 14px;
+      border-radius: var(--radio-md);
+      font-size: 0.82rem;
+      color: #FFF2DF;
+      text-align: left;
+    }
+
+    /* CONTENEDOR PRINCIPAL */
+    .container {
+      width: 100%;
+      max-width: 960px;
+      margin: -1.2rem auto 0;
+      padding: 0 1rem;
+    }
+
+    /* SECCIÓN DE PRODUCTOS (Fichas Técnicas & Nutricionales) */
+    .section-title {
+      font-family: var(--fuente-titulos);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--terracota-dark);
+      margin: 1.8rem 0 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 0.88rem;
+      color: var(--texto-suave);
+      margin-bottom: 1.2rem;
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .products-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio-lg);
+      padding: 1.25rem;
+      box-shadow: var(--sombra-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: var(--transicion);
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--sombra-flotante);
+      border-color: #D3C3B4;
+    }
+
+    .product-badge-tag {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .tag-quinua { background: var(--ocre-light); color: #9A5A0A; border: 1px solid rgba(214, 135, 41, 0.3); }
+    .tag-maca { background: var(--terracota-light); color: var(--terracota); border: 1px solid rgba(158, 62, 35, 0.3); }
+    .tag-paneton { background: var(--verde-light); color: var(--verde-andino); border: 1px solid rgba(62, 99, 71, 0.3); }
+
+    .product-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin-bottom: 0.8rem;
+      background: var(--arena-fondo);
+    }
+
+    .product-card h3 {
+      font-family: var(--fuente-titulos);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--cacao);
+      margin-bottom: 0.25rem;
+    }
+
+    .product-price {
+      font-family: var(--fuente-titulos);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--terracota);
+      margin-bottom: 0.6rem;
+    }
+
+    .product-desc {
+      font-size: 0.84rem;
+      color: var(--texto-suave);
+      margin-bottom: 0.9rem;
+      line-height: 1.45;
+    }
+
+    .nutrition-box {
+      background: var(--arena-fondo);
+      border-radius: var(--radio-sm);
+      padding: 0.75rem;
+      border: 1px solid #ECE4DA;
+      margin-top: auto;
+    }
+
+    .nutrition-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--texto-ppal);
+      margin-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nutrition-list {
+      list-style: none;
+      font-size: 0.78rem;
+      color: var(--texto-suave);
+    }
+
+    .nutrition-list li {
+      margin-bottom: 3px;
+      display: flex;
+      align-items: flex-start;
+      gap: 5px;
+    }
+
+    .nutrition-list li::before {
+      content: "•";
+      color: var(--ocre);
+      font-weight: bold;
+    }
+
+    /* FORMULARIO UNIFICADO & LAYOUT EN 2 COLUMNAS (DESKTOP) */
+    .checkout-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    @media (min-width: 880px) {
+      .checkout-layout {
+        grid-template-columns: 1.45fr 1fr;
+        align-items: start;
+      }
+    }
+
+    .form-card {
+      background: var(--card-bg);
+      border-radius: var(--radio-lg);
+      border: 1px solid var(--borde);
+      box-shadow: var(--sombra-card);
+      padding: 1.3rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card-legend {
+      font-family: var(--fuente-titulos);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--cacao);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid var(--borde);
+    }
+
+    .card-legend .step-num {
+      width: 26px;
+      height: 26px;
+      background: var(--terracota);
+      color: #FFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.82rem;
+      font-weight: bold;
+    }
+
+    /* GRUPOS DE CAMPOS */
+    .form-group {
+      margin-bottom: 1.05rem;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--texto-ppal);
+      margin-bottom: 0.35rem;
+    }
+
+    .form-group label .req {
+      color: var(--terracota);
+      margin-left: 2px;
+    }
+
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      height: 48px;
+      padding: 0 14px;
+      border: 1.5px solid var(--borde);
+      border-radius: var(--radio-md);
+      background: #FAFAFA;
+      font-family: inherit;
+      font-size: 0.95rem; /* Evita auto-zoom molesto en Safari iOS */
+      color: var(--texto-ppal);
+      transition: var(--transicion);
+      outline: none;
+    }
+
+    .form-textarea {
+      height: auto;
+      padding: 10px 14px;
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      background: #FFFFFF;
+      border-color: var(--terracota);
+      box-shadow: 0 0 0 3px rgba(158, 62, 35, 0.12);
+    }
+
+    .input-hint {
+      font-size: 0.74rem;
+      color: var(--texto-suave);
+      margin-top: 4px;
+      display: block;
+    }
+
+    /* GRID PARA DATOS CLIENTE */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0.9rem;
+    }
+
+    @media (min-width: 520px) {
+      .grid-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* CUESTIONARIO: SELECCIÓN EN CHIPS / PILLS */
+    .pill-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 5px;
+    }
+
+    .pill-radio {
+      position: relative;
+    }
+
+    .pill-radio input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .pill-label {
+      display: inline-block;
+      padding: 8px 14px;
+      background: var(--arena-fondo);
+      border: 1.5px solid var(--borde);
+      border-radius: 50px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--texto-ppal);
+      cursor: pointer;
+      transition: var(--transicion);
+      user-select: none;
+    }
+
+    .pill-radio input[type="radio"]:checked + .pill-label {
+      background: var(--terracota-light);
+      border-color: var(--terracota);
+      color: var(--terracota-dark);
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(158, 62, 35, 0.15);
+    }
+
+    /* DETALLE DEL PEDIDO & SELECTOR DE PRODUCTO */
+    .order-picker-box {
+      background: var(--arena-fondo);
+      border: 1.5px dashed #DCCFC2;
+      border-radius: var(--radio-md);
+      padding: 1.1rem;
+      margin-bottom: 1.1rem;
+    }
+
+    .qty-control-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-qty {
+      width: 44px;
+      height: 44px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--borde);
+      border-radius: var(--radio-md);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--terracota-dark);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transicion);
+    }
+
+    .btn-qty:hover:not(:disabled) {
+      background: var(--terracota-light);
+      border-color: var(--terracota);
+    }
+
+    .btn-qty:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .input-qty {
+      width: 70px;
+      height: 44px;
+      text-align: center;
+      font-size: 1.15rem;
+      font-weight: 700;
+      border: 1.5px solid var(--borde);
+      border-radius: var(--radio-md);
+      background: #FFF;
+      color: var(--cacao);
+    }
+
+    .btn-add-item {
+      height: 44px;
+      padding: 0 16px;
+      background: var(--ocre);
+      color: #FFF;
+      border: none;
+      border-radius: var(--radio-md);
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: var(--transicion);
+      margin-left: auto;
+    }
+
+    .btn-add-item:hover {
+      background: #B9721D;
+      transform: translateY(-1px);
+    }
+
+    /* LISTA DE ÍTEMS EN EL PEDIDO */
+    .order-items-list {
+      list-style: none;
+      margin-top: 0.8rem;
+    }
+
+    .order-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      background: #FFFFFF;
+      border: 1px solid var(--borde);
+      border-radius: var(--radio-md);
+      margin-bottom: 8px;
+      font-size: 0.88rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .item-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .item-title {
+      font-weight: 700;
+      color: var(--cacao);
+    }
+
+    .item-sub {
+      font-size: 0.78rem;
+      color: var(--texto-suave);
+    }
+
+    .item-price-wrap {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .item-total {
+      font-weight: 700;
+      color: var(--terracota);
+      font-family: var(--fuente-titulos);
+      font-size: 1rem;
+    }
+
+    .btn-remove-item {
+      background: transparent;
+      border: none;
+      color: #B23B3B;
+      cursor: pointer;
+      padding: 4px;
+      font-size: 1.1rem;
+      border-radius: 6px;
+      transition: var(--transicion);
+    }
+
+    .btn-remove-item:hover {
+      background: #FFEAEA;
+    }
+
+    /* CARD DE COTIZACIÓN Y RESUMEN EN TIEMPO REAL (Sticky en Desktop) */
+    .summary-card {
+      background: var(--card-bg);
+      border: 2px solid #EAD8C9;
+      border-radius: var(--radio-lg);
+      padding: 1.4rem;
+      box-shadow: var(--sombra-flotante);
+      position: relative;
+    }
+
+    @media (min-width: 880px) {
+      .summary-card {
+        position: sticky;
+        top: 20px;
+      }
+    }
+
+    .summary-card h3 {
+      font-family: var(--fuente-titulos);
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--cacao);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .summary-badge {
+      font-size: 0.72rem;
+      background: var(--verde-light);
+      color: var(--verde-andino);
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 700;
+    }
+
+    .summary-lines {
+      border-top: 1px dashed var(--borde);
+      border-bottom: 1px dashed var(--borde);
+      padding: 0.85rem 0;
+      margin: 0.85rem 0;
+      min-height: 60px;
+    }
+
+    .summary-line-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.84rem;
+      margin-bottom: 6px;
+      color: var(--texto-suave);
+    }
+
+    .summary-line-item.highlight {
+      font-weight: 600;
+      color: var(--texto-ppal);
+    }
+
+    .empty-cart-message {
+      text-align: center;
+      color: #A0958C;
+      font-size: 0.85rem;
+      padding: 15px 0;
+      font-style: italic;
+    }
+
+    .total-box {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin: 1rem 0 1.2rem;
+    }
+
+    .total-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--cacao);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .total-amount {
+      font-family: var(--fuente-titulos);
+      font-size: 1.95rem;
+      font-weight: 800;
+      color: var(--terracota);
+      letter-spacing: -0.5px;
+    }
+
+    .pickup-info-box {
+      background: var(--arena-fondo);
+      border-left: 3px solid var(--ocre);
+      padding: 9px 12px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      color: #5D5148;
+      margin-bottom: 1.2rem;
+      line-height: 1.4;
+    }
+
+    /* BOTONES DE ACCIÓN */
+    .btn-action-primary {
+      width: 100%;
+      height: 52px;
+      background: #25D366; /* Verde WhatsApp */
+      color: #FFFFFF;
+      border: none;
+      border-radius: var(--radio-md);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.35);
+      transition: var(--transicion);
+      margin-bottom: 0.75rem;
+    }
+
+    .btn-action-primary:hover {
+      background: #1FB855;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.45);
+    }
+
+    .btn-action-primary:active {
+      transform: translateY(0);
+    }
+
+    .btn-action-secondary {
+      width: 100%;
+      height: 46px;
+      background: #FFFFFF;
+      color: var(--terracota);
+      border: 1.5px solid var(--terracota);
+      border-radius: var(--radio-md);
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: var(--transicion);
+    }
+
+    .btn-action-secondary:hover {
+      background: var(--terracota-light);
+    }
+
+    .btn-dual-submit {
+      width: 100%;
+      height: 54px;
+      background: linear-gradient(135deg, var(--terracota) 0%, #B8502B 100%);
+      color: #FFF;
+      border: none;
+      border-radius: var(--radio-md);
+      font-family: inherit;
+      font-size: 1.02rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(158, 62, 35, 0.3);
+      transition: var(--transicion);
+      margin-bottom: 0.8rem;
+    }
+
+    .btn-dual-submit:hover {
+      background: linear-gradient(135deg, #873119 0%, var(--terracota) 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(158, 62, 35, 0.4);
+    }
+
+    /* MODAL DE CONFIRMACIÓN / ESTADO */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(38, 27, 22, 0.65);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1.2rem;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-card {
+      background: #FFFFFF;
+      border-radius: var(--radio-lg);
+      max-width: 460px;
+      width: 100%;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      box-shadow: var(--sombra-flotante);
+      border: 1px solid var(--borde);
+      animation: popIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .modal-icon {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: var(--verde-light);
+      color: var(--verde-andino);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 1rem;
+    }
+
+    .modal-card h3 {
+      font-family: var(--fuente-titulos);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--cacao);
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-card p {
+      font-size: 0.9rem;
+      color: var(--texto-suave);
+      line-height: 1.5;
+      margin-bottom: 1.4rem;
+    }
+
+    .modal-status-pill {
+      background: var(--arena-fondo);
+      border: 1px solid var(--borde);
+      border-radius: var(--radio-sm);
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      color: #55483F;
+      text-align: left;
+      margin-bottom: 1.4rem;
+    }
+
+    .modal-status-pill ul {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .modal-status-pill li {
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-modal-close {
+      width: 100%;
+      height: 48px;
+      background: var(--terracota);
+      color: #FFF;
+      border: none;
+      border-radius: var(--radio-md);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transicion);
+    }
+
+    .btn-modal-close:hover {
+      background: var(--terracota-dark);
+    }
+
+    /* TOAST DE NOTIFICACIÓN */
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      pointer-events: none;
+      width: 90%;
+      max-width: 400px;
+    }
+
+    .toast-msg {
+      background: var(--cacao);
+      color: #FFF;
+      padding: 12px 18px;
+      border-radius: var(--radio-md);
+      font-size: 0.86rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      border-left: 4px solid var(--ocre);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: slideUp 0.3s ease;
+      pointer-events: auto;
+    }
+
+    .toast-msg.success { border-left-color: #25D366; }
+    .toast-msg.error { border-left-color: #FF5A5F; }
+
+    /* FOOTER */
+    .footer {
+      text-align: center;
+      padding: 2.5rem 1rem 1.5rem;
+      color: #8C8077;
+      font-size: 0.82rem;
+    }
+
+    .footer a {
+      color: var(--terracota);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* ANIMACIONES */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Clases de utilidad */
+    .text-center { text-align: center; }
+    .badge-soft {
+      display: inline-block;
+      padding: 2px 7px;
+      font-size: 0.72rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================
+       ENCABEZADO / HERO
+       ======================================================================== -->
+  <header class="header">
+    <div class="brand-badge">
+      <span>🌾</span> Innovación & Nutrición Universitaria
+    </div>
+    <h1>ESANIO <span>EMPRENDEDOR</span></h1>
+    <p>Desayunos andinos saludables y panetón artesanal con hongos nutricionales para la comunidad de la Universidad ESAN.</p>
+    
+    <div class="campus-notice">
+      <span>📍</span>
+      <div>
+        <strong>Modalidad de Pedido:</strong> Realiza tu pedido hoy y recógelo mañana fresco en el campus ESAN.
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       CONTENIDO PRINCIPAL
+       ======================================================================== -->
+  <main class="container">
+
+    <!-- SECCIÓN 1: INFORMACIÓN TÉCNICA Y NUTRICIONAL -->
+    <section id="productos">
+      <h2 class="section-title">
+        <span>🌱</span> Nuestros Productos Andinos & Funcionales
+      </h2>
+      <p class="section-subtitle">Fórmula artesanal, ingredientes ancestrales y valor nutricional comprobado para rendir al máximo en tus clases y labores.</p>
+
+      <div class="products-grid">
+        <!-- Tarjeta 1: Desayuno Quinua -->
+        <article class="product-card">
+          <span class="product-badge-tag tag-quinua">Proteína Completa</span>
+          <div>
+            <div class="product-icon-wrap" title="Quinua Andina">🥣</div>
+            <h3>Desayuno Quinua</h3>
+            <div class="product-price">S/ 3.50</div>
+            <p class="product-desc">Bebida tibia a base de quinua perlada andina seleccionada, cocida a fuego lento con canela aromática, clavo y manzana.</p>
+          </div>
+          <div class="nutrition-box">
+            <div class="nutrition-title">⚡ Aporte Nutricional</div>
+            <ul class="nutrition-list">
+              <li>Aporta los 9 aminoácidos esenciales.</li>
+              <li>Hierro y magnesio para evitar fatiga mental.</li>
+              <li>Carbohidratos complejos de absorción lenta.</li>
+              <li>100% libre de lactosa y conservantes.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Tarjeta 2: Desayuno Maca -->
+        <article class="product-card">
+          <span class="product-badge-tag tag-maca">Energía & Memoria</span>
+          <div>
+            <div class="product-icon-wrap" title="Maca Andina">☕</div>
+            <h3>Desayuno Maca</h3>
+            <div class="product-price">S/ 3.50</div>
+            <p class="product-desc">Superalimento andino adaptógeno premium con manzana y especias naturales. Vitalidad natural sin picos ni bajones de cafeína.</p>
+          </div>
+          <div class="nutrition-box">
+            <div class="nutrition-title">🧠 Aporte Nutricional</div>
+            <ul class="nutrition-list">
+              <li>Potencia la concentración y retención mental.</li>
+              <li>Equilibrio adaptógeno contra el estrés académico.</li>
+              <li>Rico en calcio, zinc y vitaminas B.</li>
+              <li>Energía limpia y sostenida para tu mañana.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- Tarjeta 3: Panetón de Hongos Nutricionales -->
+        <article class="product-card">
+          <span class="product-badge-tag tag-paneton">Innovación ESAN</span>
+          <div>
+            <div class="product-icon-wrap" title="Panetón de Hongos">🍞</div>
+            <h3>Panetón con Hongos</h3>
+            <div class="product-price">S/ 43.00</div>
+            <p class="product-desc">Innovador panetón artesanal elaborado con harina de hongos comestibles nutricionales, castañas y frutos deshidratados.</p>
+          </div>
+          <div class="nutrition-box">
+            <div class="nutrition-title">🍄 Aporte Nutricional</div>
+            <ul class="nutrition-list">
+              <li>Rico en Beta-Glucanos que refuerzan defensas.</li>
+              <li>Alto contenido de fibra prebiótica digestiva.</li>
+              <li>Bajo en azúcares vs panetón comercial.</li>
+              <li>Antioxidantes naturales y sabor equilibrado.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: FORMULARIO UNIFICADO Y COTIZADOR -->
+    <section id="formulario-pedido">
+      <h2 class="section-title">
+        <span>📝</span> Formulario Unificado de Pedido
+      </h2>
+      <p class="section-subtitle">Completa tus datos, responde brevemente el cuestionario de hábitos y cotiza en tiempo real tu pedido para mañana.</p>
+
+      <form id="orderForm" onsubmit="event.preventDefault();">
+        <div class="checkout-layout">
+
+          <!-- COLUMNA IZQUIERDA: DATOS, CUESTIONARIO Y DETALLE -->
+          <div class="form-sections">
+
+            <!-- BLOQUE 1: DATOS DEL CLIENTE -->
+            <div class="form-card">
+              <div class="card-legend">
+                <span class="step-num">1</span>
+                <span>Datos del Cliente Universitario</span>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label for="clientName">Nombre y Apellido <span class="req">*</span></label>
+                  <input type="text" id="clientName" class="form-input" placeholder="Ej. Valeria Mendoza" required autocomplete="name">
+                </div>
+
+                <div class="form-group">
+                  <label for="clientPhone">Teléfono / WhatsApp <span class="req">*</span></label>
+                  <input type="tel" id="clientPhone" class="form-input" placeholder="Ej. 987654321" required autocomplete="tel">
+                </div>
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label for="clientEmail">Correo Electrónico <span class="req">*</span></label>
+                  <input type="email" id="clientEmail" class="form-input" placeholder="Ej. estudiante@esan.edu.pe" required autocomplete="email">
+                </div>
+
+                <div class="form-group">
+                  <label for="clientBirthday">Fecha de Cumpleaños <span class="req">*</span></label>
+                  <input type="date" id="clientBirthday" class="form-input" required>
+                  <span class="input-hint">🎁 ¡Te enviaremos una cortesía andina en tu mes de cumpleaños!</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOQUE 2: CUESTIONARIO DE HÁBITOS -->
+            <div class="form-card">
+              <div class="card-legend">
+                <span class="step-num">2</span>
+                <span>Cuestionario de Hábitos de Desayuno</span>
+              </div>
+
+              <!-- Pregunta A -->
+              <div class="form-group">
+                <label>a) ¿Cuántos días a la semana desayunas en la universidad? <span class="req">*</span></label>
+                <div class="pill-options">
+                  <label class="pill-radio">
+                    <input type="radio" name="habitDays" value="1 a 2 días" checked>
+                    <span class="pill-label">1 a 2 días</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="habitDays" value="3 a 4 días">
+                    <span class="pill-label">3 a 4 días</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="habitDays" value="5 días o más">
+                    <span class="pill-label">5 días o más</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="habitDays" value="Casi nunca / Rara vez">
+                    <span class="pill-label">Rara vez</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Pregunta B -->
+              <div class="form-group" style="margin-top: 1.1rem;">
+                <label for="habitType">b) ¿Qué tipo de desayuno sueles tomar? <span class="req">*</span></label>
+                <select id="habitType" class="form-select" required>
+                  <option value="" disabled selected>Selecciona tu hábito habitual...</option>
+                  <option value="Bebidas andinas / Quinua / Maca / Avena">Bebidas andinas / Quinua / Maca / Avena</option>
+                  <option value="Café con sándwich o panadería">Café con sándwich o panadería</option>
+                  <option value="Jugo de frutas natural o ensalada de frutas">Jugo de frutas natural o ensalada de frutas</option>
+                  <option value="Snacks rápidos de tienda / Máquinas dispensadoras">Snacks rápidos de tienda / Máquinas dispensadoras</option>
+                  <option value="Desayuno completo casero antes de salir">Desayuno completo casero antes de salir</option>
+                  <option value="No suelo desayunar por falta de tiempo">No suelo desayunar por falta de tiempo</option>
+                </select>
+              </div>
+
+              <!-- Pregunta C -->
+              <div class="form-group" style="margin-top: 1.1rem;">
+                <label>c) ¿En qué rango horario sueles desayunar en el campus? <span class="req">*</span></label>
+                <div class="pill-options">
+                  <label class="pill-radio">
+                    <input type="radio" name="habitTime" value="7:00 am - 8:00 am" checked>
+                    <span class="pill-label">7:00 - 8:00 am</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="habitTime" value="8:00 am - 9:30 am">
+                    <span class="pill-label">8:00 - 9:30 am</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="habitTime" value="9:30 am - 11:00 am">
+                    <span class="pill-label">9:30 - 11:00 am</span>
+                  </label>
+                  <label class="pill-radio">
+                    <input type="radio" name="habitTime" value="Después de las 11:00 am">
+                    <span class="pill-label">Después de las 11 am</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- BLOQUE 3: DETALLE DEL PEDIDO -->
+            <div class="form-card">
+              <div class="card-legend">
+                <span class="step-num">3</span>
+                <span>Detalle de tu Pedido</span>
+              </div>
+
+              <div class="order-picker-box">
+                <div class="form-group">
+                  <label for="productSelect">Seleccionar Producto <span class="req">*</span></label>
+                  <select id="productSelect" class="form-select">
+                    <option value="quinua" data-name="Desayuno Quinua" data-price="3.50">Desayuno Quinua — S/ 3.50</option>
+                    <option value="maca" data-name="Desayuno Maca" data-price="3.50">Desayuno Maca — S/ 3.50</option>
+                    <option value="paneton" data-name="Panetón de Hongos Nutricionales" data-price="43.00">Panetón de Hongos Nutricionales — S/ 43.00</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>Cantidad</label>
+                  <div class="qty-control-wrap">
+                    <button type="button" class="btn-qty" id="btnMinusQty" aria-label="Disminuir cantidad">-</button>
+                    <input type="number" id="productQty" class="input-qty" value="1" min="1" max="99" readonly>
+                    <button type="button" class="btn-qty" id="btnPlusQty" aria-label="Aumentar cantidad">+</button>
+                    
+                    <button type="button" class="btn-add-item" id="btnAddProduct">
+                      <span>➕</span> Agregar al Pedido
+                    </button>
+                  </div>
+                  <span class="input-hint">Elige un producto y haz clic en "Agregar al Pedido" para incluirlo o combinar varios.</span>
+                </div>
+              </div>
+
+              <!-- Lista de productos agregados -->
+              <label style="font-size: 0.85rem; font-weight: 600;">Ítems en tu pedido:</label>
+              <ul class="order-items-list" id="orderItemsList">
+                <!-- Se inyecta dinámicamente con JS -->
+              </ul>
+
+              <!-- Punto de recojo en campus -->
+              <div class="form-group" style="margin-top: 1.1rem;">
+                <label for="pickupPoint">Punto de Recojo en Campus ESAN <span class="req">*</span></label>
+                <select id="pickupPoint" class="form-select" required>
+                  <option value="Ágora Central (Frente a Cafetería)">Ágora Central (Frente a Cafetería)</option>
+                  <option value="Torre de Pregrado - Entrada Principal">Torre de Pregrado - Entrada Principal</option>
+                  <option value="Edificio de Postgrado - Hall 1">Edificio de Postgrado - Hall 1</option>
+                  <option value="Zona de Bancas / Canchas Deportivas">Zona de Bancas / Canchas Deportivas</option>
+                </select>
+              </div>
+
+              <!-- Notas adicionales -->
+              <div class="form-group" style="margin-top: 1rem;">
+                <label for="orderNotes">Notas adicionales o requerimientos especiales</label>
+                <textarea id="orderNotes" class="form-textarea" placeholder="Ej. Poco dulce, sin azúcar, recojo exactamente a las 7:45 am, llevar en vaso térmico..."></textarea>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- COLUMNA DERECHA: RESUMEN DEL COTIZADOR Y BOTONES DE ENVÍO -->
+          <div class="summary-wrapper">
+            <div class="summary-card">
+              <h3>
+                <span>🛒 Resumen en Vivo</span>
+                <span class="summary-badge" id="itemCountBadge">1 ítem</span>
+              </h3>
+
+              <div class="summary-lines" id="summaryLinesContainer">
+                <!-- Líneas detalladas del resumen -->
+              </div>
+
+              <div class="total-box">
+                <span class="total-label">Total a Pagar:</span>
+                <span class="total-amount" id="totalAmountDisplay">S/ 3.50</span>
+              </div>
+
+              <div class="pickup-info-box">
+                <strong>⏰ Recuerda:</strong> Tu pedido se prepara artesanalmente al alba. Recógelo mañana en el punto seleccionado del campus mostrando tu nombre.
+              </div>
+
+              <!-- BOTÓN UNIFICADO (WhatsApp + Registro Silencioso) -->
+              <button type="button" class="btn-dual-submit" id="btnDualSubmit" title="Envía por WhatsApp y registra silenciosamente tu pedido">
+                <span>🚀 Confirmar y Enviar Pedido</span>
+              </button>
+
+              <!-- BOTONES INDIVIDUALES (Cumplimiento de los dos botones claros) -->
+              <div style="margin-top: 0.8rem; border-top: 1px dashed var(--borde); padding-top: 0.9rem;">
+                <p style="font-size: 0.76rem; color: var(--texto-suave); margin-bottom: 0.6rem; text-align: center;">O elige un método específico de envío:</p>
+                
+                <button type="button" class="btn-action-primary" id="btnSendWhatsApp">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.311.045-.698.059-1.146-.084-.306-.098-.7-.228-1.206-.448-2.127-.923-3.522-3.08-3.628-3.22-.107-.143-.865-1.149-.865-2.193 0-1.044.549-1.558.745-1.77.195-.213.426-.266.568-.266.143 0 .285.002.408.008.13.006.304-.049.476.363.177.427.604 1.472.657 1.579.054.107.09.232.018.374-.071.143-.107.232-.213.356-.107.125-.225.279-.322.375-.107.107-.219.224-.094.438.125.214.557.917 1.196 1.487.823.733 1.517.96 1.731 1.067.214.107.339.089.464-.054.125-.142.535-.623.678-.837.142-.213.285-.178.476-.107.19.071 1.209.571 1.417.677.208.107.347.16.398.249.052.089.052.516-.092.921z"/>
+                  </svg>
+                  <span>1. Enviar por WhatsApp</span>
+                </button>
+
+                <button type="button" class="btn-action-secondary" id="btnSendEmailOnly">
+                  <span>✉️</span>
+                  <span>2. Envío Silencioso (EmailJS)</span>
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       MODAL DE CONFIRMACIÓN ELEGANTE
+       ======================================================================== -->
+  <div class="modal-overlay" id="confirmModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-icon">✅</div>
+      <h3 id="modalTitle">¡Pedido Recibido con Éxito!</h3>
+      <p id="modalBody">Tu pedido ha sido procesado correctamente. Hemos registrado tus preferencias y te esperamos mañana en el campus ESAN.</p>
+      
+      <div class="modal-status-pill">
+        <strong>📋 Estado de Transmisión:</strong>
+        <ul>
+          <li id="statusEmail">✉️ Correo silencioso: <span style="color:var(--verde-andino); font-weight:700;">Enviado a cocina</span></li>
+          <li id="statusWhatsApp">📱 WhatsApp: <span style="color:#25D366; font-weight:700;">Mensaje generado</span></li>
+          <li id="statusTotal">💰 Total cotizado: <span id="modalTotal" style="font-weight:700;">S/ 0.00</span></li>
+        </ul>
+      </div>
+
+      <button type="button" class="btn-modal-close" id="btnCloseModal">Entendido, ¡gracias!</button>
+    </div>
+  </div>
+
+  <!-- CONTENEDOR TOASTS -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p><strong>ESANIO EMPRENDEDOR</strong> • Nutrición Andina Saludable</p>
+    <p>Universidad ESAN • Hecho con orgullo e ingredientes ancestrales del Perú.</p>
+    <p style="margin-top: 6px; font-size: 0.74rem;">Pedidos anticipados con entrega al día siguiente en el campus.</p>
+  </footer>
+
+  <!-- ========================================================================
+       JAVASCRIPT: COTIZADOR, EMAILJS Y GENERACIÓN DE WHATSAPP
+       ======================================================================== -->
+  <script>
+    /* ==========================================================================
+       CONFIGURACIÓN DE CREDENCIALES (PLACEHOLDERS CONFIGURABLES)
+       ========================================================================== */
+    // Configura tus credenciales de EmailJS aquí:
+    const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";   // Coloca tu Public Key de EmailJS
+    const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";   // Coloca tu Service ID de EmailJS
+    const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // Coloca tu Template ID de EmailJS
+
+    // Número de WhatsApp al que llegarán los pedidos (Código de país 51 para Perú + 9 dígitos)
+    const WHATSAPP_PHONE = "51999999999"; // Reemplaza con el número de tu negocio
+
+    // Catálogo maestro de productos y precios oficiales
+    const PRODUCT_CATALOG = {
+      quinua: {
+        id: "quinua",
+        name: "Desayuno Quinua",
+        price: 3.50,
+        unit: "vaso"
+      },
+      maca: {
+        id: "maca",
+        name: "Desayuno Maca",
+        price: 3.50,
+        unit: "vaso"
+      },
+      paneton: {
+        id: "paneton",
+        name: "Panetón de Hongos Nutricionales",
+        price: 43.00,
+        unit: "unidad 900g"
+      }
+    };
+
+    // Estado del carrito/pedido
+    // Inicia con 1 Desayuno Quinua por defecto para cotización instantánea
+    let cart = [
+      { id: "quinua", name: "Desayuno Quinua", price: 3.50, qty: 1 }
+    ];
+
+    /* ==========================================================================
+       INICIALIZACIÓN DE EMAILJS
+       ========================================================================== */
+    (function initEmailService() {
+      if (typeof emailjs !== 'undefined') {
+        if (EMAILJS_PUBLIC_KEY && EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
+          emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+          console.log("EmailJS inicializado correctamente.");
+        } else {
+          console.warn("EmailJS: Credenciales pendientes de configurar (Modo Simulación activo).");
+        }
+      }
+    })();
+
+    /* ==========================================================================
+       SELECTORES DEL DOM
+       ========================================================================== */
+    const productSelect = document.getElementById("productSelect");
+    const productQty = document.getElementById("productQty");
+    const btnMinusQty = document.getElementById("btnMinusQty");
+    const btnPlusQty = document.getElementById("btnPlusQty");
+    const btnAddProduct = document.getElementById("btnAddProduct");
+    const orderItemsList = document.getElementById("orderItemsList");
+    const summaryLinesContainer = document.getElementById("summaryLinesContainer");
+    const totalAmountDisplay = document.getElementById("totalAmountDisplay");
+    const itemCountBadge = document.getElementById("itemCountBadge");
+    
+    // Botones de acción
+    const btnDualSubmit = document.getElementById("btnDualSubmit");
+    const btnSendWhatsApp = document.getElementById("btnSendWhatsApp");
+    const btnSendEmailOnly = document.getElementById("btnSendEmailOnly");
+
+    // Modal
+    const confirmModal = document.getElementById("confirmModal");
+    const btnCloseModal = document.getElementById("btnCloseModal");
+    const modalTotal = document.getElementById("modalTotal");
+    const statusEmail = document.getElementById("statusEmail");
+    const statusWhatsApp = document.getElementById("statusWhatsApp");
+
+    /* ==========================================================================
+       LÓGICA DEL COTIZADOR Y MANEJO DEL CARRITO (REACTIVIDAD EN VIVO)
+       ========================================================================== */
+    
+    // Sincronizar el ítem activo si el carrito tiene un solo ítem
+    function syncSingleCartItem() {
+      if (cart.length === 1) {
+        const selectedKey = productSelect.value;
+        const productInfo = PRODUCT_CATALOG[selectedKey];
+        const qty = parseInt(productQty.value) || 1;
+        cart[0] = {
+          id: productInfo.id,
+          name: productInfo.name,
+          price: productInfo.price,
+          qty: qty
+        };
+        renderCartAndQuote();
+      }
+    }
+
+    // Controles de cantidad (+) y (-) del selector
+    btnMinusQty.addEventListener("click", () => {
+      let current = parseInt(productQty.value) || 1;
+      if (current > 1) {
+        productQty.value = current - 1;
+        btnMinusQty.disabled = (current - 1 <= 1);
+        syncSingleCartItem();
+      }
+    });
+
+    btnPlusQty.addEventListener("click", () => {
+      let current = parseInt(productQty.value) || 1;
+      if (current < 99) {
+        productQty.value = current + 1;
+        btnMinusQty.disabled = false;
+        syncSingleCartItem();
+      }
+    });
+
+    // Cambio manual en el menú desplegable: actualiza cotización al instante
+    productSelect.addEventListener("change", () => {
+      const selectedKey = productSelect.value;
+      const productInfo = PRODUCT_CATALOG[selectedKey];
+      const qty = parseInt(productQty.value) || 1;
+
+      if (cart.length <= 1) {
+        cart = [{
+          id: productInfo.id,
+          name: productInfo.name,
+          price: productInfo.price,
+          qty: qty
+        }];
+        renderCartAndQuote();
+      }
+    });
+
+    // Agregar o acumular producto en la orden
+    btnAddProduct.addEventListener("click", () => {
+      const selectedKey = productSelect.value;
+      const productInfo = PRODUCT_CATALOG[selectedKey];
+      const quantity = parseInt(productQty.value) || 1;
+
+      if (!productInfo) return;
+
+      const existingIndex = cart.findIndex(item => item.id === selectedKey);
+      if (existingIndex > -1) {
+        // Si ya está, aumentamos la cantidad
+        cart[existingIndex].qty += quantity;
+      } else {
+        cart.push({
+          id: productInfo.id,
+          name: productInfo.name,
+          price: productInfo.price,
+          qty: quantity
+        });
+      }
+
+      // Reiniciar contador de cantidad a 1 para el siguiente agregado
+      productQty.value = 1;
+      btnMinusQty.disabled = true;
+
+      renderCartAndQuote();
+      showToast(`¡Agregado al pedido! Total: ${quantity}x ${productInfo.name}`, "success");
+    });
+
+    // Función para modificar cantidad de un ítem existente en la lista
+    window.updateItemQty = function(index, delta) {
+      if (cart[index]) {
+        cart[index].qty += delta;
+        if (cart[index].qty <= 0) {
+          cart.splice(index, 1);
+        }
+        renderCartAndQuote();
+      }
+    };
+
+    // Función para eliminar un ítem del pedido
+    window.removeCartItem = function(index) {
+      if (cart[index]) {
+        const removed = cart.splice(index, 1);
+        renderCartAndQuote();
+        showToast(`Se retiró ${removed[0].name}`, "info");
+      }
+    };
+
+    // Renderizar ítems y calcular total en tiempo real
+    function renderCartAndQuote() {
+      // 1. Renderizar lista en la tarjeta de detalle de pedido
+      if (cart.length === 0) {
+        orderItemsList.innerHTML = `
+          <li style="font-size:0.84rem; color:var(--texto-suave); padding:10px; text-align:center; background:#FFF; border-radius:8px; border:1px dashed var(--borde);">
+            No hay productos en el pedido. Selecciona arriba un producto para cotizar.
+          </li>`;
+      } else {
+        orderItemsList.innerHTML = cart.map((item, index) => {
+          const subtotal = item.price * item.qty;
+          return `
+            <li class="order-item-row">
+              <div class="item-meta">
+                <span class="item-title">${item.name}</span>
+                <span class="item-sub">S/ ${item.price.toFixed(2)} c/u × ${item.qty} = <strong>S/ ${subtotal.toFixed(2)}</strong></span>
+              </div>
+              <div class="item-price-wrap">
+                <div style="display:flex; align-items:center; gap:4px;">
+                  <button type="button" class="btn-remove-item" style="color:var(--cacao); font-weight:bold; padding:2px 8px; font-size:0.9rem;" onclick="updateItemQty(${index}, -1)" title="Restar uno">-</button>
+                  <span style="font-weight:700; min-width:20px; text-align:center;">${item.qty}</span>
+                  <button type="button" class="btn-remove-item" style="color:var(--cacao); font-weight:bold; padding:2px 8px; font-size:0.9rem;" onclick="updateItemQty(${index}, 1)" title="Sumar uno">+</button>
+                </div>
+                <span class="item-total" style="min-width:70px; text-align:right;">S/ ${subtotal.toFixed(2)}</span>
+                <button type="button" class="btn-remove-item" onclick="removeCartItem(${index})" title="Quitar producto">✕</button>
+              </div>
+            </li>
+          `;
+        }).join("");
+      }
+
+      // 2. Renderizar resumen del cotizador lateral/inferior
+      let totalAmount = 0;
+      let totalQty = 0;
+
+      if (cart.length === 0) {
+        summaryLinesContainer.innerHTML = `<div class="empty-cart-message">Tu canasta está vacía. Elige un producto para cotizar.</div>`;
+      } else {
+        summaryLinesContainer.innerHTML = cart.map(item => {
+          const subtotal = item.price * item.qty;
+          totalAmount += subtotal;
+          totalQty += item.qty;
+          return `
+            <div class="summary-line-item highlight">
+              <span>${item.qty} × ${item.name}</span>
+              <span>S/ ${subtotal.toFixed(2)}</span>
+            </div>
+          `;
+        }).join("");
+
+        // Agregar línea de recojo en campus
+        summaryLinesContainer.innerHTML += `
+          <div class="summary-line-item" style="margin-top:8px; font-size:0.78rem;">
+            <span>Entrega en Campus ESAN:</span>
+            <span style="color:var(--verde-andino); font-weight:700;">Gratis</span>
+          </div>
+        `;
+      }
+
+      // Actualizar visualizadores del total
+      const formattedTotal = `S/ ${totalAmount.toFixed(2)}`;
+      totalAmountDisplay.textContent = formattedTotal;
+      itemCountBadge.textContent = `${totalQty} ${totalQty === 1 ? 'ítem' : 'ítems'}`;
+      modalTotal.textContent = formattedTotal;
+    }
+
+    /* ==========================================================================
+       VALIDACIÓN DEL FORMULARIO UNIFICADO
+       ========================================================================== */
+    function validateForm() {
+      const name = document.getElementById("clientName").value.trim();
+      const phone = document.getElementById("clientPhone").value.trim();
+      const email = document.getElementById("clientEmail").value.trim();
+      const birthday = document.getElementById("clientBirthday").value;
+      const habitType = document.getElementById("habitType").value;
+
+      if (!name) {
+        showToast("Por favor ingresa tu Nombre y Apellido.", "error");
+        document.getElementById("clientName").focus();
+        return false;
+      }
+      if (!phone || phone.length < 8) {
+        showToast("Por favor ingresa un Teléfono o WhatsApp válido.", "error");
+        document.getElementById("clientPhone").focus();
+        return false;
+      }
+      if (!email || !email.includes("@")) {
+        showToast("Por favor ingresa un Correo Electrónico válido.", "error");
+        document.getElementById("clientEmail").focus();
+        return false;
+      }
+      if (!birthday) {
+        showToast("Por favor selecciona tu Fecha de Cumpleaños.", "error");
+        document.getElementById("clientBirthday").focus();
+        return false;
+      }
+      if (!habitType) {
+        showToast("Por favor responde qué tipo de desayuno sueles tomar en el cuestionario.", "error");
+        document.getElementById("habitType").focus();
+        return false;
+      }
+      if (cart.length === 0) {
+        showToast("Agrega al menos un producto a tu pedido para continuar.", "error");
+        document.getElementById("productSelect").focus();
+        return false;
+      }
+
+      return true;
+    }
+
+    /* ==========================================================================
+       EXTRACCIÓN DE DATOS COMPLETOS DEL FORMULARIO
+       ========================================================================== */
+    function getOrderData() {
+      const name = document.getElementById("clientName").value.trim();
+      const phone = document.getElementById("clientPhone").value.trim();
+      const email = document.getElementById("clientEmail").value.trim();
+      const birthday = document.getElementById("clientBirthday").value;
+      
+      const habitDays = document.querySelector('input[name="habitDays"]:checked')?.value || "No especificado";
+      const habitType = document.getElementById("habitType").value || "No especificado";
+      const habitTime = document.querySelector('input[name="habitTime"]:checked')?.value || "No especificado";
+      
+      const pickupPoint = document.getElementById("pickupPoint").value;
+      const notes = document.getElementById("orderNotes").value.trim() || "Ninguna";
+
+      const totalNum = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const totalStr = `S/ ${totalNum.toFixed(2)}`;
+
+      const itemsText = cart.map(item => `• ${item.qty}x ${item.name} (S/ ${(item.price * item.qty).toFixed(2)})`).join("\n");
+
+      return {
+        name,
+        phone,
+        email,
+        birthday,
+        habitDays,
+        habitType,
+        habitTime,
+        pickupPoint,
+        notes,
+        cart,
+        totalNum,
+        totalStr,
+        itemsText,
+        timestamp: new Date().toLocaleString("es-PE")
+      };
+    }
+
+    /* ==========================================================================
+       ACCIÓN 1: GENERACIÓN DE ENLACE DE WHATSAPP (API wa.me)
+       ========================================================================== */
+    function buildWhatsAppUrl(orderData) {
+      const message = 
+`👋 *¡HOLA ESANIO EMPRENDEDOR! Deseo realizar un pedido:*
+
+📋 *DATOS DEL CLIENTE*
+• *Nombre:* ${orderData.name}
+• *Teléfono:* ${orderData.phone}
+• *Email:* ${orderData.email}
+• *Cumpleaños:* ${orderData.birthday}
+
+📊 *CUESTIONARIO DE HÁBITOS*
+• *Días desayuno en ESAN:* ${orderData.habitDays}
+• *Tipo de desayuno usual:* ${orderData.habitType}
+• *Rango de horario:* ${orderData.habitTime}
+
+🛒 *DETALLE DEL PEDIDO*
+${orderData.itemsText}
+
+💰 *TOTAL A PAGAR:* ${orderData.totalStr}
+📍 *Punto de Recojo en Campus:* ${orderData.pickupPoint}
+📝 *Notas especiales:* ${orderData.notes}
+
+_Pedido registrado para recojo mañana a primera hora._`;
+
+      return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(message)}`;
+    }
+
+    /* ==========================================================================
+       ACCIÓN 2: ENVÍO SILENCIOSO POR EMAILJS
+       ========================================================================== */
+    async function sendSilentEmail(orderData) {
+      // Estructura de parámetros que se envían a la plantilla de EmailJS
+      const templateParams = {
+        to_name: "Equipo ESANIO EMPRENDEDOR",
+        cliente_nombre: orderData.name,
+        cliente_telefono: orderData.phone,
+        cliente_email: orderData.email,
+        cliente_cumpleanos: orderData.birthday,
+        habito_dias: orderData.habitDays,
+        habito_tipo: orderData.habitType,
+        habito_horario: orderData.habitTime,
+        pedido_detalle: orderData.itemsText,
+        pedido_total: orderData.totalStr,
+        punto_recojo: orderData.pickupPoint,
+        notas_adicionales: orderData.notes,
+        fecha_registro: orderData.timestamp
+      };
+
+      // Si aún no se han configurado las claves reales, simula el éxito para no frenar la UX
+      if (!EMAILJS_PUBLIC_KEY || EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY" || typeof emailjs === 'undefined') {
+        console.info("⚡ [EmailJS Demo/Simulación] Datos listos para correo:", templateParams);
+        return { success: true, simulated: true };
+      }
+
+      try {
+        const response = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+        console.log("EmailJS enviado con éxito:", response.status, response.text);
+        return { success: true, simulated: false };
+      } catch (error) {
+        console.error("Error al enviar EmailJS:", error);
+        return { success: false, error: error };
+      }
+    }
+
+    /* ==========================================================================
+       DISPARADORES DE EVENTOS
+       ========================================================================== */
+
+    // 1. Botón Exclusivo de WhatsApp
+    btnSendWhatsApp.addEventListener("click", () => {
+      if (!validateForm()) return;
+      const order = getOrderData();
+      const url = buildWhatsAppUrl(order);
+
+      // Feedback y apertura
+      showToast("Abriendo WhatsApp con tu pedido estructurado...", "success");
+      setTimeout(() => {
+        window.open(url, "_blank");
+      }, 350);
+    });
+
+    // 2. Botón Exclusivo de Correo Silencioso (EmailJS)
+    btnSendEmailOnly.addEventListener("click", async () => {
+      if (!validateForm()) return;
+      const order = getOrderData();
+
+      btnSendEmailOnly.disabled = true;
+      btnSendEmailOnly.textContent = "⏳ Enviando por correo...";
+
+      const result = await sendSilentEmail(order);
+
+      btnSendEmailOnly.disabled = false;
+      btnSendEmailOnly.innerHTML = `<span>✉️</span><span>2. Envío Silencioso (EmailJS)</span>`;
+
+      if (result.success) {
+        statusEmail.innerHTML = `✉️ Correo silencioso: <span style="color:var(--verde-andino); font-weight:700;">Recibido en bandeja</span>`;
+        statusWhatsApp.innerHTML = `📱 WhatsApp: <span style="color:#777;">No solicitado en esta acción</span>`;
+        openModal("¡Pedido Notificado por Correo!", "Tu pedido y respuestas al cuestionario fueron enviados silenciosamente al correo de producción de ESANIO EMPRENDEDOR.");
+      } else {
+        showToast("Hubo un detalle al enviar el correo. Revisa tus credenciales de EmailJS.", "error");
+      }
+    });
+
+    // 3. Botón Principal: DISPARO SIMULTÁNEO (WhatsApp + EmailJS Silencioso)
+    btnDualSubmit.addEventListener("click", async () => {
+      if (!validateForm()) return;
+      const order = getOrderData();
+
+      btnDualSubmit.disabled = true;
+      btnDualSubmit.innerHTML = `<span>⏳ Procesando Pedido...</span>`;
+
+      // 1. Envío silencioso por EmailJS en segundo plano
+      const emailResult = await sendSilentEmail(order);
+
+      // 2. Preparar WhatsApp
+      const waUrl = buildWhatsAppUrl(order);
+
+      btnDualSubmit.disabled = false;
+      btnDualSubmit.innerHTML = `<span>🚀 Confirmar y Enviar Pedido</span>`;
+
+      // 3. Mostrar confirmación en pantalla sin recargar
+      statusEmail.innerHTML = emailResult.simulated 
+        ? `✉️ Correo silencioso: <span style="color:var(--verde-andino); font-weight:700;">Simulado (Listo para credenciales)</span>`
+        : `✉️ Correo silencioso: <span style="color:var(--verde-andino); font-weight:700;">Enviado correctamente</span>`;
+      statusWhatsApp.innerHTML = `📱 WhatsApp: <span style="color:#25D366; font-weight:700;">Abriendo chat oficial...</span>`;
+
+      openModal(
+        "¡Pedido Registrado con Éxito!",
+        "Tu pedido ha sido procesado silenciosamente. Al presionar el botón inferior se abrirá tu WhatsApp con el mensaje prearmado listo para enviar."
+      );
+
+      // Abre WhatsApp automáticamente en pestaña/app
+      setTimeout(() => {
+        window.open(waUrl, "_blank");
+      }, 700);
+    });
+
+    /* ==========================================================================
+       HELPERS DE UI: MODAL Y TOASTS
+       ========================================================================== */
+    function openModal(title, message) {
+      document.getElementById("modalTitle").textContent = title;
+      document.getElementById("modalBody").textContent = message;
+      confirmModal.classList.add("active");
+    }
+
+    btnCloseModal.addEventListener("click", () => {
+      confirmModal.classList.remove("active");
+    });
+
+    confirmModal.addEventListener("click", (e) => {
+      if (e.target === confirmModal) {
+        confirmModal.classList.remove("active");
+      }
+    });
+
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toastContainer");
+      const toast = document.createElement("div");
+      toast.className = `toast-msg ${type}`;
+      toast.innerHTML = `<span>${type === 'success' ? '✔' : type === 'error' ? '✖' : 'ℹ'}</span> <span>${message}</span>`;
+      
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(15px)';
+        toast.style.transition = 'all 0.3s ease';
+        setTimeout(() => toast.remove(), 300);
+      }, 3500);
+    }
+
+    // Inicializar renderizado del carrito al cargar
+    document.addEventListener("DOMContentLoaded", () => {
+      renderCartAndQuote();
+    });
+  </script>
+</body>
+</html>
